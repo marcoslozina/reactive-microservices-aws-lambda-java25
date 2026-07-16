@@ -3,7 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   Microservicios Reactivos con Spring Boot y AWS Lambda
   
-  Este template SAM despliega una función Lambda reactiva con Spring Boot 3.x y Java 25.
+  Este template SAM despliega una función Lambda reactiva con Spring Boot 4.x y Java 25.
 
 Globals:
   Function:
@@ -21,7 +21,7 @@ Resources:
     Properties:
       CodeUri: ../lambda-core/
       PackageType: Zip
-      Description: Función Lambda reactiva con Spring Boot 3.x y Project Reactor
+      Description: Función Lambda reactiva con Spring Boot 4.x y Project Reactor
       Environment:
         Variables:
           SPRING_CLOUD_FUNCTION_DEFINITION: hello
