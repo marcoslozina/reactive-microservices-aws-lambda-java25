@@ -1,12 +1,12 @@
 # Microservicios Reactivos Spring Boot AWS Lambda
 
 [![Java](https://img.shields.io/badge/Java-25-orange.svg)](https://openjdk.org/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.13-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Gradle](https://img.shields.io/badge/Gradle-9.2.1-02303A.svg?logo=gradle)](https://gradle.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Gradle](https://img.shields.io/badge/Gradle-9.6.1-02303A.svg?logo=gradle)](https://gradle.org/)
 [![AWS Lambda](https://img.shields.io/badge/AWS-Lambda-FF9900.svg?logo=amazon-aws)](https://aws.amazon.com/lambda/)
 [![License](https://img.shields.io/badge/license-Copyright-blue.svg)](LICENSE)
 
-Código fuente del ebook **"Microservicios Reactivos con Spring Boot y AWS Lambda"**. Proyecto completo con Spring Boot 3.4.13, Java 25, Project Reactor y AWS Lambda. Listo para producción con soporte para compilación nativa con GraalVM.
+Código fuente del ebook **"Microservicios Reactivos con Spring Boot y AWS Lambda"**. Proyecto completo con Spring Boot 4.1.0, Java 25, Project Reactor y AWS Lambda. Listo para producción con soporte para compilación nativa con GraalVM.
 
 > 📖 **Obtén el ebook completo:**
 > - 📚 [Amazon Kindle](https://www.amazon.com/dp/B0G1L1FFK6)
@@ -15,8 +15,8 @@ Código fuente del ebook **"Microservicios Reactivos con Spring Boot y AWS Lambd
 
 ## 🚀 Stack Tecnológico
 
-- **Java 25** + **Spring Boot 3.4.13** + **Spring WebFlux** *(Ebook: Sección 0.13, 0.14)*
-- **Spring Cloud Function 2024.0.0** *(Ebook: Sección 3.2)*
+- **Java 25** + **Spring Boot 4.1.0** + **Spring WebFlux** *(Ebook: Sección 0.13, 0.14)*
+- **Spring Cloud Function 5.0.3** (Spring Cloud 2025.1.2) *(Ebook: Sección 3.2)*
 - **Project Reactor** (Mono/Flux) *(Ebook: Sección 2.3)*
 - **Spring Cloud Function** + **AWS Lambda** *(Ebook: Sección 3.3, 3.4)*
 - **GraalVM Native Image** (compilación nativa) *(Ebook: Sección 4.2, 4.4)*
@@ -34,7 +34,7 @@ API Gateway HTTP API → AWS Lambda → Spring Cloud Function → Project Reacto
 
 ## 🚀 Inicio Rápido
 
-**Requisitos:** Java 25, Gradle 9.2.1+ (incluido), Docker, AWS SAM CLI *(Ebook: Sección 1.2)*
+**Requisitos:** Java 25, Gradle 9.6.1+ (incluido), Docker, AWS SAM CLI *(Ebook: Sección 1.2)*
 
 ```bash
 # Clonar y compilar
