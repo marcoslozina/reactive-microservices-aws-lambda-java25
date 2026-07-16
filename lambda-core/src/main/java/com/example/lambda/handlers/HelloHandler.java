@@ -31,7 +31,8 @@ public class HelloHandler {
      * @return a Mono containing the greeting message
      */
     public Mono<String> processGreeting(String name) {
-        return Mono.just(name)
+        return Mono.justOrEmpty(name)
+            .defaultIfEmpty("") // name can be null; Mono forbids null elements (Reactive Streams spec)
             .delayElement(Duration.ofMillis(10)) // Simulate async processing
             .map(n -> String.format("Hello, %s!", n != null && !n.isEmpty() ? n : "World"))
             .doOnNext(result -> {
