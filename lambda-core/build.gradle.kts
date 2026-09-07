@@ -31,11 +31,15 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-function-context")
     implementation("org.springframework.cloud:spring-cloud-starter-function-web")
     implementation("org.springframework.cloud:spring-cloud-function-adapter-aws")
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2025.1.2"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2025.1.3"))
 
     // AWS Lambda Events
     implementation("com.amazonaws:aws-lambda-java-events:3.16.1")
-    implementation("com.amazonaws:aws-lambda-java-serialization:1.1.5")
+    implementation("com.amazonaws:aws-lambda-java-serialization:1.1.6")
+    // Declarada explicitamente: antes llegaba solo transitiva/opcional via
+    // spring-cloud-function-adapter-aws y no terminaba en el classpath de native-image,
+    // causando NoClassDefFoundError en RequestStreamHandler durante :lambda-core:nativeCompile.
+    implementation("com.amazonaws:aws-lambda-java-core:1.4.0")
 
     // JSON Processing
     // NOTA: Spring Boot 4 usa Jackson 3 (tools.jackson) por defecto para su propio JSON
