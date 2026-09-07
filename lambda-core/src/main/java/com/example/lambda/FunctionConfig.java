@@ -20,7 +20,7 @@ import java.util.function.Supplier;
  * Configuration for AWS Lambda functions using Spring Cloud Function.
  * All functions are implemented reactively using Project Reactor.
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class FunctionConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(FunctionConfig.class);
