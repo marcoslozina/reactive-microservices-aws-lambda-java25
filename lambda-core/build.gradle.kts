@@ -69,7 +69,18 @@ graalvmNative {
     binaries {
         named("main") {
             imageName.set("lambda-core")
-            mainClass.set("org.springframework.cloud.function.adapter.aws.FunctionInvoker")
+            // Entry point must be a class with a real `public static void main(String[])`.
+            // org.springframework.cloud.function.adapter.aws.FunctionInvoker is a
+            // RequestStreamHandler (used only as the AWS Lambda `Handler` for the JVM/Zip
+            // deployment in lambda-infra/template.yaml) — it has no main() method. Passing it
+            // as the native-image mainClass makes GraalVM's JDK 25 main-method resolution
+            // (jdk.internal.misc.MethodFinder, JEP 512) return null instead of throwing, which
+            // crashes native-image with a NullPointerException in
+            // NativeImageGeneratorRunner.findDefaultJavaMainMethod instead of a clean error.
+            // Point at the actual Spring Boot application class instead; Spring Cloud Function's
+            // AWS adapter detects the Lambda custom runtime environment at startup and takes
+            // over the AWS Lambda Runtime API event loop from there.
+            mainClass.set("com.example.lambda.LambdaApplication")
             buildArgs.addAll(
                 listOf(
                     "--no-fallback",
