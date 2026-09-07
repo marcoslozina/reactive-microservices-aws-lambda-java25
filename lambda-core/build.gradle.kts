@@ -100,20 +100,6 @@ graalvmNative {
     }
 }
 
-// Deshabilitar AOT para evitar problemas de compatibilidad con Spring Cloud Function
-tasks.named("processAot") {
-    enabled = false
-}
-tasks.named("compileAotJava") {
-    enabled = false
-}
-tasks.named("processAotResources") {
-    enabled = false
-}
-tasks.named("aotClasses") {
-    enabled = false
-}
-
 tasks.named("nativeCompile") {
     dependsOn("bootJar")
 }

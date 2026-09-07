@@ -103,7 +103,7 @@ jobs:
         run: chmod +x gradlew
       
       - name: Build native image
-        run: ./gradlew :lambda-core:nativeCompile -x processAot -x compileAotJava -x processAotResources -x aotClasses --no-daemon
+        run: ./gradlew :lambda-core:nativeCompile --no-daemon
 
       - name: Upload native binary
         if: success()
