@@ -31,11 +31,15 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-function-context")
     implementation("org.springframework.cloud:spring-cloud-starter-function-web")
     implementation("org.springframework.cloud:spring-cloud-function-adapter-aws")
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2025.1.2"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2025.1.3"))
 
     // AWS Lambda Events
     implementation("com.amazonaws:aws-lambda-java-events:3.16.1")
-    implementation("com.amazonaws:aws-lambda-java-serialization:1.1.5")
+    implementation("com.amazonaws:aws-lambda-java-serialization:1.1.6")
+    // Declarada explicitamente: antes llegaba solo transitiva/opcional via
+    // spring-cloud-function-adapter-aws y no terminaba en el classpath de native-image,
+    // causando NoClassDefFoundError en RequestStreamHandler durante :lambda-core:nativeCompile.
+    implementation("com.amazonaws:aws-lambda-java-core:1.4.0")
 
     // JSON Processing
     // NOTA: Spring Boot 4 usa Jackson 3 (tools.jackson) por defecto para su propio JSON
@@ -65,7 +69,18 @@ graalvmNative {
     binaries {
         named("main") {
             imageName.set("lambda-core")
-            mainClass.set("org.springframework.cloud.function.adapter.aws.FunctionInvoker")
+            // Entry point must be a class with a real `public static void main(String[])`.
+            // org.springframework.cloud.function.adapter.aws.FunctionInvoker is a
+            // RequestStreamHandler (used only as the AWS Lambda `Handler` for the JVM/Zip
+            // deployment in lambda-infra/template.yaml) — it has no main() method. Passing it
+            // as the native-image mainClass makes GraalVM's JDK 25 main-method resolution
+            // (jdk.internal.misc.MethodFinder, JEP 512) return null instead of throwing, which
+            // crashes native-image with a NullPointerException in
+            // NativeImageGeneratorRunner.findDefaultJavaMainMethod instead of a clean error.
+            // Point at the actual Spring Boot application class instead; Spring Cloud Function's
+            // AWS adapter detects the Lambda custom runtime environment at startup and takes
+            // over the AWS Lambda Runtime API event loop from there.
+            mainClass.set("com.example.lambda.LambdaApplication")
             buildArgs.addAll(
                 listOf(
                     "--no-fallback",
@@ -83,20 +98,6 @@ graalvmNative {
             )
         }
     }
-}
-
-// Deshabilitar AOT para evitar problemas de compatibilidad con Spring Cloud Function
-tasks.named("processAot") {
-    enabled = false
-}
-tasks.named("compileAotJava") {
-    enabled = false
-}
-tasks.named("processAotResources") {
-    enabled = false
-}
-tasks.named("aotClasses") {
-    enabled = false
 }
 
 tasks.named("nativeCompile") {
