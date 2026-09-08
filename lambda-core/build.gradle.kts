@@ -18,16 +18,17 @@ tasks.jacocoTestReport {
 }
 
 // Coverage budget: fails the build if instruction coverage on lambda-core drops
-// below the threshold. Baseline measured on 2026-09-07 (HelloHandlerTest only,
-// before this gate existed) was ~11.3% instruction coverage (72/639 instructions).
-// Threshold set 5 points below that measured baseline so today's build passes
-// with a small buffer, while still catching a real regression (e.g. tests
-// deleted or a large amount of untested code added).
+// below the threshold. Baseline measured on 2026-09-07 after adding tests for
+// FunctionConfig, HelloController, GlobalExceptionHandler and RequestValidator
+// was ~87.6% instruction coverage (560/639 instructions). Threshold set 5 points
+// below that measured baseline so today's build passes with a small buffer,
+// while still catching a real regression (e.g. tests deleted or a large amount
+// of untested code added).
 tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = "0.06".toBigDecimal()
+                minimum = "0.82".toBigDecimal()
             }
         }
     }
