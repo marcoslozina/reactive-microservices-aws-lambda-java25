@@ -3,6 +3,42 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 plugins {
     id("org.springframework.boot")
     id("org.graalvm.buildtools.native")
+    jacoco
+}
+
+jacoco {
+    toolVersion = "0.8.13"
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+}
+
+// Coverage budget: fails the build if instruction coverage on lambda-core drops
+// below the threshold. Baseline measured on 2026-09-07 (HelloHandlerTest only,
+// before this gate existed) was ~11.3% instruction coverage (72/639 instructions).
+// Threshold set 5 points below that measured baseline so today's build passes
+// with a small buffer, while still catching a real regression (e.g. tests
+// deleted or a large amount of untested code added).
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.06".toBigDecimal()
+            }
+        }
+    }
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
 configurations.all {
