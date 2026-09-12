@@ -1,4 +1,4 @@
-# Microservicios Reactivos Spring Boot AWS Lambda
+# Reactive Microservices Spring Boot AWS Lambda
 
 [![Java](https://img.shields.io/badge/Java-25-orange.svg)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
@@ -6,25 +6,25 @@
 [![AWS Lambda](https://img.shields.io/badge/AWS-Lambda-FF9900.svg?logo=amazon-aws)](https://aws.amazon.com/lambda/)
 [![License](https://img.shields.io/badge/license-Copyright-blue.svg)](LICENSE)
 
-Código fuente del ebook **"Microservicios Reactivos con Spring Boot y AWS Lambda"**. Proyecto completo con Spring Boot 4.1.0, Java 25, Project Reactor y AWS Lambda. Listo para producción con soporte para compilación nativa con GraalVM.
+Source code for the ebook **"Reactive Microservices with Spring Boot and AWS Lambda"**. A complete project with Spring Boot 4.1.0, Java 25, Project Reactor, and AWS Lambda. Production-ready with support for native compilation via GraalVM.
 
-> 📖 **Obtén el ebook completo:**
+> 📖 **Get the full ebook:**
 > - 📚 [Amazon Kindle](https://www.amazon.com/dp/B0G1L1FFK6)
 > - 🛒 [Hotmart](https://go.hotmart.com/O102857613J?dp=1)
 > - 💳 [Gumroad](https://marcoslozina.gumroad.com/l/tporu)
 
-## 🚀 Stack Tecnológico
+## 🚀 Tech Stack
 
-- **Java 25** + **Spring Boot 4.1.0** + **Spring WebFlux** *(Ebook: Sección 0.13, 0.14)*
-- **Spring Cloud Function 5.0.3** (Spring Cloud 2025.1.2) *(Ebook: Sección 3.2)*
-- **Project Reactor** (Mono/Flux) *(Ebook: Sección 2.3)*
-- **Spring Cloud Function** + **AWS Lambda** *(Ebook: Sección 3.3, 3.4)*
-- **GraalVM Native Image** (compilación nativa) *(Ebook: Sección 4.2, 4.4)*
-- **AWS SAM** + **LocalStack** (desarrollo local) *(Ebook: Sección 1.5, 3.6)*
-- **GitHub Actions** (CI/CD) *(Ebook: Sección 6.6)*
-- **Micrometer** + **Spring Actuator** (observabilidad) *(Ebook: Sección 6.4)*
+- **Java 25** + **Spring Boot 4.1.0** + **Spring WebFlux** *(Ebook: Section 0.13, 0.14)*
+- **Spring Cloud Function 5.0.3** (Spring Cloud 2025.1.2) *(Ebook: Section 3.2)*
+- **Project Reactor** (Mono/Flux) *(Ebook: Section 2.3)*
+- **Spring Cloud Function** + **AWS Lambda** *(Ebook: Section 3.3, 3.4)*
+- **GraalVM Native Image** (native compilation) *(Ebook: Section 4.2, 4.4)*
+- **AWS SAM** + **LocalStack** (local development) *(Ebook: Section 1.5, 3.6)*
+- **GitHub Actions** (CI/CD) *(Ebook: Section 6.6)*
+- **Micrometer** + **Spring Actuator** (observability) *(Ebook: Section 6.4)*
 
-## 🏗️ Arquitectura
+## 🏗️ Architecture
 
 ```
 API Gateway HTTP API → AWS Lambda → Spring Cloud Function → Project Reactor
@@ -32,60 +32,60 @@ API Gateway HTTP API → AWS Lambda → Spring Cloud Function → Project Reacto
                             CloudWatch Logs / DynamoDB / SQS
 ```
 
-## 🚀 Inicio Rápido
+## 🚀 Quick Start
 
-**Requisitos:** Java 25, Gradle 9.6.1+ (incluido), Docker, AWS SAM CLI *(Ebook: Sección 1.2)*
+**Requirements:** Java 25, Gradle 9.6.1+ (bundled), Docker, AWS SAM CLI *(Ebook: Section 1.2)*
 
 ```bash
-# Clonar y compilar
+# Clone and build
 git clone <repository-url>
 cd reactive-microservices-aws-lambda-java25
 
-# Usar la versión con Java 25 (recomendado)
+# Use the Java 25 version (recommended)
 git checkout v1.0.0-java25
 
-# O usar la versión anterior con Java 21 (solo para referencia)
+# Or use the previous Java 21 version (reference only)
 # git checkout v1.0.0-java21
 
-./gradlew clean build  # Ebook: Sección 1.4, 1.8
+./gradlew clean build  # Ebook: Section 1.4, 1.8
 
-# Ejecutar tests
-./gradlew test  # Ebook: Sección 2.8
+# Run tests
+./gradlew test  # Ebook: Section 2.8
 
-# Levantar aplicación local
-./gradlew :lambda-core:bootRun  # Ebook: Sección 1.6
+# Start the local application
+./gradlew :lambda-core:bootRun  # Ebook: Section 1.6
 ```
 
-## 💻 Desarrollo Local
+## 💻 Local Development
 
 ```bash
-# Iniciar LocalStack
-docker-compose up -d localstack  # Ebook: Sección 1.5, 5.10
+# Start LocalStack
+docker-compose up -d localstack  # Ebook: Section 1.5, 5.10
 
-# Probar con SAM
+# Test with SAM
 cd lambda-infra
-sam build --template template.yaml  # Ebook: Sección 3.6
-sam local invoke "ReactiveFunction" --event events/hello.json  # Ebook: Sección 3.6
-sam local start-api  # Ebook: Sección 3.6
+sam build --template template.yaml  # Ebook: Section 3.6
+sam local invoke "ReactiveFunction" --event events/hello.json  # Ebook: Section 3.6
+sam local start-api  # Ebook: Section 3.6
 ```
 
-## 🐳 Ejecución con Docker
+## 🐳 Running with Docker
 
-### Imagen de la aplicación
+### Application Image
 
 ```bash
-# Construir imagen multi-stage (Java 25 + Spring Boot)
+# Build the multi-stage image (Java 25 + Spring Boot)
 docker build -t reactive-lambda .
 
-# Levantar la función como servicio WebFlux en localhost (usa 8081 si 8080 está ocupado)
+# Run the function as a WebFlux service on localhost (uses 8081 if 8080 is taken)
 docker run --rm -d -p 8081:8080 --name reactive-lambda reactive-lambda
 
-# Smoke test sobre el endpoint y los actuators expuestos en el contenedor
+# Smoke test against the endpoint and actuators exposed on the container
 curl -i "http://localhost:8081/hello?name=Marcos"
 curl -i "http://localhost:8081/actuator/health"
 ```
 
-Ejemplo de respuesta:
+Example response:
 
 ```
 HTTP/1.1 200 OK
@@ -93,7 +93,7 @@ Content-Type: application/json
 {"message":"ok","name":"Marcos","greeting":"Hello, Marcos!","timestamp":"2025-12-07T22:25:41.234Z"}
 ```
 
-### Tooling containerizado (Gradle + SAM)
+### Containerized Tooling (Gradle + SAM)
 
 ```bash
 # Bash / zsh
@@ -125,49 +125,49 @@ docker run --rm -it `
   bash -lc "sam build --template lambda-infra/template.yaml && sam validate"
 ```
 
-## ☁️ Despliegue a AWS
+## ☁️ Deploying to AWS
 
 ```bash
 cd lambda-infra
-sam deploy --guided  # Ebook: Sección 3.7, 3.11.1
+sam deploy --guided  # Ebook: Section 3.7, 3.11.1
 ```
 
-> 📖 **Ver en el ebook:** 
-> - Sección 3.7 (Despliegue en AWS)
-> - Sección 3.11.1 (Despliegue con API Gateway)
-> - Sección 4.8 (Despliegue del binario nativo en AWS Lambda)
+> 📖 **See in the ebook:**
+> - Section 3.7 (Deploying to AWS)
+> - Section 3.11.1 (Deploying with API Gateway)
+> - Section 4.8 (Deploying the native binary to AWS Lambda)
 
 ## 🧪 Testing
 
 ```bash
-./gradlew test                    # Todos los tests
-./gradlew :lambda-core:test       # Solo lambda-core
-./gradlew :lambda-tests:test      # Solo integración
+./gradlew test                    # All tests
+./gradlew :lambda-core:test       # lambda-core only
+./gradlew :lambda-tests:test      # Integration only
 ```
 
-## 🎯 Compilación Nativa
+## 🎯 Native Compilation
 
 ```bash
-export JAVA_HOME=/path/to/graalvm-jdk-25  # Ebook: Sección 4.5.1
-./gradlew :lambda-core:nativeCompile  # Ebook: Sección 4.4, 4.8
+export JAVA_HOME=/path/to/graalvm-jdk-25  # Ebook: Section 4.5.1
+./gradlew :lambda-core:nativeCompile  # Ebook: Section 4.4, 4.8
 ```
 
-> 📖 **Ver en el ebook:** Sección 4 (Optimización de arranque y performance con GraalVM Native) para detalles completos sobre configuración, optimizaciones y despliegue del binario nativo.
+> 📖 **See in the ebook:** Section 4 (Startup and performance optimization with GraalVM Native) for full details on configuration, optimizations, and deploying the native binary.
 
-## 📊 Observabilidad
+## 📊 Observability
 
 ```bash
 # Health check
-curl http://localhost:8080/actuator/health  # Ebook: Sección 6.4
+curl http://localhost:8080/actuator/health  # Ebook: Section 6.4
 
-# Métricas
-curl http://localhost:8080/actuator/metrics  # Ebook: Sección 6.4
+# Metrics
+curl http://localhost:8080/actuator/metrics  # Ebook: Section 6.4
 ```
 
-> 📖 **Ver en el ebook:** 
-> - Sección 6.3 (Logging estructurado)
-> - Sección 6.4 (Métricas personalizadas con Micrometer)
-> - Sección 6.5 (Trazas distribuidas con AWS X-Ray)
+> 📖 **See in the ebook:**
+> - Section 6.3 (Structured logging)
+> - Section 6.4 (Custom metrics with Micrometer)
+> - Section 6.5 (Distributed tracing with AWS X-Ray)
 
 ## 🐛 Troubleshooting
 
@@ -176,118 +176,118 @@ curl http://localhost:8080/actuator/metrics  # Ebook: Sección 6.4
 ./gradlew clean build
 ```
 
-**LocalStack no responde**
+**LocalStack not responding**
 ```bash
 docker-compose restart localstack
 curl http://localhost:4566/_localstack/health
 ```
 
-**GraalVM Native Build falla**
+**GraalVM Native Build fails**
 ```bash
 export GRADLE_OPTS="-Xmx4g"
 ./gradlew clean :lambda-core:nativeCompile
 ```
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
-├── lambda-core/          # Código principal Lambda (Ebook: Sección 1.7, 3.9)
+├── lambda-core/          # Main Lambda code (Ebook: Section 1.7, 3.9)
 │   ├── src/main/java/com/example/lambda/
-│   │   ├── FunctionConfig.java      # Ebook: Sección 3.9.1
-│   │   ├── HelloHandler.java        # Ebook: Sección 3.9.2
-│   │   ├── HelloController.java     # Ebook: Sección 2.4, 2.5
-│   │   ├── GlobalExceptionHandler.java  # Ebook: Sección 3.10, 2.7
-│   │   └── RequestValidator.java   # Ebook: Sección 3.10.1
+│   │   ├── FunctionConfig.java      # Ebook: Section 3.9.1
+│   │   ├── HelloHandler.java        # Ebook: Section 3.9.2
+│   │   ├── HelloController.java     # Ebook: Section 2.4, 2.5
+│   │   ├── GlobalExceptionHandler.java  # Ebook: Section 3.10, 2.7
+│   │   └── RequestValidator.java   # Ebook: Section 3.10.1
 │   └── src/main/resources/
-│       ├── application.yml          # Ebook: Sección 1.9.1
-│       ├── application-dev.yml       # Ebook: Sección 1.9.2
-│       └── application-prod.yml     # Ebook: Sección 1.9.3
-├── lambda-infra/         # Template SAM (Ebook: Sección 3.11)
-│   ├── template.yaml     # Ebook: Sección 3.11
-│   └── events/           # Ebook: Sección 3.6
-├── lambda-tests/         # Tests de integración (Ebook: Sección 2.8)
-└── buildSrc/             # Convenciones Gradle (Ebook: Sección 1.4)
-    └── src/main/kotlin/conventions.gradle.kts  # Ebook: Sección 0.14, 1.4
+│       ├── application.yml          # Ebook: Section 1.9.1
+│       ├── application-dev.yml       # Ebook: Section 1.9.2
+│       └── application-prod.yml     # Ebook: Section 1.9.3
+├── lambda-infra/         # SAM template (Ebook: Section 3.11)
+│   ├── template.yaml     # Ebook: Section 3.11
+│   └── events/           # Ebook: Section 3.6
+├── lambda-tests/         # Integration tests (Ebook: Section 2.8)
+└── buildSrc/             # Gradle conventions (Ebook: Section 1.4)
+    └── src/main/kotlin/conventions.gradle.kts  # Ebook: Section 0.14, 1.4
 ```
 
-> 📖 **Documento de Referencias Cruzadas:** Ver [`REFERENCIAS_CRUZADAS_EBOOK_PROYECTO.md`](REFERENCIAS_CRUZADAS_EBOOK_PROYECTO.md) para mapeo completo entre el ebook y los archivos del proyecto.
+> 📖 **Cross-Reference Document:** See [`REFERENCIAS_CRUZADAS_EBOOK_PROYECTO.md`](REFERENCIAS_CRUZADAS_EBOOK_PROYECTO.md) for a full mapping between the ebook and the project files.
 
-## 🏷️ Versiones y Tags
+## 🏷️ Versions and Tags
 
-El proyecto incluye tags de Git para facilitar el acceso a diferentes versiones:
+The project includes Git tags to make it easy to access different versions:
 
-- **`v1.0.0-java25`** (actual): Versión completa migrada a Java 25
+- **`v1.0.0-java25`** (current): Full version migrated to Java 25
   - Java 25 LTS, Spring Boot 3.4.13, Gradle 9.2.1
-  - Runtime AWS Lambda: `java25`
-  - Recomendado para seguir el ebook actualizado
+  - AWS Lambda runtime: `java25`
+  - Recommended for following the updated ebook
 
-- **`v1.0.0-java21`**: Última versión antes de la migración a Java 25
+- **`v1.0.0-java21`**: Last version before the Java 25 migration
   - Java 21, Spring Boot 3.3.1
-  - Útil para comparar cambios o ver el estado anterior
+  - Useful for comparing changes or seeing the prior state
 
-### Usar una versión específica
+### Using a Specific Version
 
 ```bash
-# Ver todas las versiones disponibles
+# List all available versions
 git tag -l
 
-# Cambiar a la versión con Java 25 (recomendado)
+# Switch to the Java 25 version (recommended)
 git checkout v1.0.0-java25
 
-# Cambiar a la versión con Java 21 (solo referencia)
+# Switch to the Java 21 version (reference only)
 git checkout v1.0.0-java21
 
-# Ver diferencias entre versiones
+# See differences between versions
 git diff v1.0.0-java21 v1.0.0-java25
 
-# Volver a la última versión
+# Go back to the latest version
 git checkout main
 ```
 
-## 📚 Recursos
+## 📚 Resources
 
 ### 📖 Ebook
 - 📚 [Amazon Kindle](https://www.amazon.com/dp/B0G1L1FFK6)
 - 🛒 [Hotmart](https://go.hotmart.com/O102857613J?dp=1)
 - 💳 [Gumroad](https://marcoslozina.gumroad.com/l/tporu)
 
-> 🔗 **Referencias Cruzadas:** Este proyecto está 100% alineado con el ebook. Consulta [`REFERENCIAS_CRUZADAS_EBOOK_PROYECTO.md`](REFERENCIAS_CRUZADAS_EBOOK_PROYECTO.md) para navegar entre el ebook y el código fuente.
+> 🔗 **Cross-References:** This project is 100% aligned with the ebook. See [`REFERENCIAS_CRUZADAS_EBOOK_PROYECTO.md`](REFERENCIAS_CRUZADAS_EBOOK_PROYECTO.md) to navigate between the ebook and the source code.
 
-### Documentación
-- [Spring Boot](https://spring.io/projects/spring-boot) *(Ebook: Sección 0.13, 1.4)*
-- [Spring Cloud Function](https://spring.io/projects/spring-cloud-function) *(Ebook: Sección 3.2)*
-- [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/) *(Ebook: Sección 3.6, 3.11)*
-- [Project Reactor](https://projectreactor.io/docs/core/release/reference/) *(Ebook: Sección 2.3)*
+### Documentation
+- [Spring Boot](https://spring.io/projects/spring-boot) *(Ebook: Section 0.13, 1.4)*
+- [Spring Cloud Function](https://spring.io/projects/spring-cloud-function) *(Ebook: Section 3.2)*
+- [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/) *(Ebook: Section 3.6, 3.11)*
+- [Project Reactor](https://projectreactor.io/docs/core/release/reference/) *(Ebook: Section 2.3)*
 
-## 💝 Apoyo al Proyecto
+## 💝 Support the Project
 
-Si este proyecto te ha sido útil:
+If this project has been useful to you:
 
-- 📖 **Obtén el ebook completo** - [Amazon](https://www.amazon.com/dp/B0G1L1FFK6) | [Hotmart](https://go.hotmart.com/O102857613J?dp=1) | [Gumroad](https://marcoslozina.gumroad.com/l/tporu)
+- 📖 **Get the full ebook** - [Amazon](https://www.amazon.com/dp/B0G1L1FFK6) | [Hotmart](https://go.hotmart.com/O102857613J?dp=1) | [Gumroad](https://marcoslozina.gumroad.com/l/tporu)
 - ☕ [Buy Me a Coffee](https://buymeacoffee.com/codefuel)
 - 💳 [PayPal Donate](https://www.paypal.com/donate/?hosted_button_id=4TYGJ5S8CLX8J)
-- ⭐ **Dale una estrella** al repositorio
+- ⭐ **Star** the repository
 
-¡Gracias por tu apoyo! 🙏
+Thanks for your support! 🙏
 
-## 🤝 Contribuir
+## 🤝 Contributing
 
-1. Fork el proyecto
-2. Crea una rama (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+1. Fork the project
+2. Create a branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📄 Licencia
+## 📄 License
 
-Copyright (c) 2025 Marcos Raimundo Lozina. Todos los derechos reservados.
+Copyright (c) 2025 Marcos Raimundo Lozina. All rights reserved.
 
-Este proyecto está protegido por derechos de autor. Ver el archivo [LICENSE](LICENSE) para detalles completos.
+This project is protected by copyright. See the [LICENSE](LICENSE) file for full details.
 
-**Uso**: Solo para uso personal y educativo. Cualquier uso comercial requiere autorización previa.
+**Usage**: Personal and educational use only. Any commercial use requires prior authorization.
 
-## 👤 Autor
+## 👤 Author
 
 **Marcos Raimundo Lozina**
 
-Creado como proyecto de referencia para microservicios reactivos serverless con Spring Boot y AWS Lambda.
+Created as a reference project for serverless reactive microservices with Spring Boot and AWS Lambda.
